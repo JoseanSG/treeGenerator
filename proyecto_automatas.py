@@ -153,15 +153,4 @@ def mini_parser(tokens: list):
     if tokens[1][0] == "=":
         parse_ass(tokens)
     else: # expressions
-        return parse_expr(tokens)[0]
-
-# f = open ('expresiones.txt','r')
-# expresion = f.read()
-# expresion_separada = expresion.split("\n")
-# f.close()
-# list_tok = tokenizer(expresion)
-# print(list_tok)
-# for exp in expresion_separada:    
-#     list_tokens = tokenizer(exp)    
-#     mini_parser(list_tokens)
-# print(SymbolTable.symbols)    
+        return parse_expr(tokens)[0]  

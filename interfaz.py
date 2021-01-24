@@ -1,5 +1,6 @@
 from tkinter import *
 from proyecto_automatas import *
+from tree_generator import * 
 
 class Interfaz:
     def __init__(self, ventana):
@@ -43,9 +44,13 @@ class Interfaz:
         #Ubicar la pantalla en la ventana
         self.pantalla.grid(row=1, column=8, columnspan=4, padx=5, pady=5)
 
-        #Crear los botones de la calculadora
-        boton1=self.crearBoton("analizar")
-        boton1.grid(row=6, column=0, columnspan=4, padx=5, pady=5)
+        #Crear boton de analizar
+        botonAnalizar=Button(self.ventana, text="analizar", width=9, height=1, font=("Helvetica",15),command=self.analize)
+        botonAnalizar.grid(row=6, column=0, columnspan=4, padx=5, pady=5)
+
+        #Crear boton de analizar
+        botonArbol=Button(self.ventana, text="Generar Arbol", width=15, height=1, font=("Helvetica",15),command=self.generateTree)
+        botonArbol.grid(row=6, column=4, columnspan=4, padx=5, pady=5)
         
 
         # #Ubicar los botones con el gestor grid
@@ -60,14 +65,9 @@ class Interfaz:
 
         # return
 
-
-    #Crea un botón mostrando el valor pasado por parámetro
-    def crearBoton(self, valor, escribir=True, ancho=9, alto=1):
-        return Button(self.ventana, text=valor, width=ancho, height=alto, font=("Helvetica",15),command=self.analize)
-
     def analize(self):  
-        ejemplo = self.textAsignacion.get(1.0, "end-1c")
-        tokens = tokenizer(ejemplo)
+        expresion = self.textAsignacion.get(1.0, "end-1c")
+        tokens = tokenizer(expresion)
         self.tokens.config(state=NORMAL)
         for token in tokens:
             self.tokens.insert(INSERT, token)
@@ -77,7 +77,7 @@ class Interfaz:
 
         self.pantalla.config(state=NORMAL)
         self.pantalla.delete('1.0', END)
-        expresion_separada = ejemplo.split("\n")
+        expresion_separada = expresion.split("\n")
         for exp in expresion_separada:    
             list_tokens = tokenizer(exp)    
             mini_parser(list_tokens)
@@ -89,44 +89,10 @@ class Interfaz:
         self.pantalla.config(state=DISABLED)
         self.textAsignacion.delete('1.0', END)
 
-    # #Controla el evento disparado al hacer click en un botón
-    # def click(self, texto, escribir):
-    #     #Si el parámetro 'escribir' es True, entonces el parámetro texto debe mostrarse en pantalla. Si es False, no.
-    #     if not escribir:
-    #         #Sólo calcular si hay una operación a ser evaluada y si el usuario presionó '='
-    #         if texto=="=" and self.operacion!="":
-    #             #Reemplazar el valor unicode de la división por el operador división de Python '/'
-    #             self.operacion=re.sub(u"\u00F7", "/", self.operacion)
-    #             resultado=str(eval(self.operacion))
-    #             self.operacion=""
-    #             self.limpiarPantalla()
-    #             self.mostrarEnPantalla(resultado)
-    #         #Si se presionó el botón de borrado, limpiar la pantalla
-    #         elif texto==u"\u232B":
-    #             self.operacion=""
-    #             self.limpiarPantalla()
-    #     #Mostrar texto
-    #     else:
-    #         self.operacion+=str(texto)
-    #         self.mostrarEnPantalla(texto)
-    #     return
-
-
-    # #Borra el contenido de la pantalla de la calculadora
-    # def limpiarPantalla(self):
-    #     self.pantalla.configure(state="normal")
-    #     self.pantalla.delete("1.0", END)
-    #     self.pantalla.configure(state="disabled")
-    #     return
-
-
-    # #Muestra en la pantalla de la calculadora el contenido de las operaciones y los resultados
-    # def mostrarEnPantalla(self, valor):
-    #     self.pantalla.configure(state="normal")
-    #     self.pantalla.insert(END, valor)
-    #     self.pantalla.configure(state="disabled")
-    #     return
-
+    def generateTree(self):
+        expresion = self.textAsignacion.get(1.0, "end-1c")
+        tokens = tokenizer(expresion)
+        create_tree(tokens)
 
 ventana_principal=Tk()
 calculadora=Interfaz(ventana_principal)

@@ -18,6 +18,6 @@ def create_tree(tokens):
     dot.render('graficas/arbol.gv', view=True)
 
 
-pages = convert_from_path('graficas/arbol.pdf', 500)
-for page in pages:
-    page.save('graficas/out.png', 'PNG')
+# pages = convert_from_path('graficas/arbol.pdf', 500)
+# for page in pages:
+#     page.save('graficas/out.png', 'PNG')
