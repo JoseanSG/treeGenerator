@@ -1,6 +1,6 @@
 from tkinter import *
 from proyecto_automatas import *
-from tree_generator import * 
+from tree_generator import *
 
 class Interfaz:
     def __init__(self, ventana):
@@ -95,8 +95,12 @@ class Interfaz:
         print(tokens)
         # create_tree(tokens)
         tree_tokens = postfix(tokens)
-        print(tree_tokens)
-        #create_tree(tree_tokens)
+        tree_tokens_fixed = []
+        for tok in tree_tokens:
+            if tok != "(" and tok != ")":
+                tree_tokens_fixed.append(tok)
+        print(tree_tokens_fixed)
+        Tree.create_tree2(tree_tokens_fixed)
 
 ventana_principal=Tk()
 calculadora=Interfaz(ventana_principal)
