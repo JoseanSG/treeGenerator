@@ -92,7 +92,11 @@ class Interfaz:
     def generateTree(self):
         expresion = self.textAsignacion.get(1.0, "end-1c")
         tokens = tokenizer(expresion)
-        create_tree(tokens)
+        print(tokens)
+        # create_tree(tokens)
+        tree_tokens = postfix(tokens)
+        print(tree_tokens)
+        #create_tree(tree_tokens)
 
 ventana_principal=Tk()
 calculadora=Interfaz(ventana_principal)

@@ -60,6 +60,8 @@ class SymbolTable:
 #_____PARSER______
 
 precedence = {
+    ")": 0,
+    "(": 0,
     "-": 1,
     "+": 2,
     "*": 3,
@@ -154,3 +156,34 @@ def mini_parser(tokens: list):
         parse_ass(tokens)
     else: # expressions
         return parse_expr(tokens)[0]  
+
+def postfix(tokens):
+    stack = []
+    postfix_stack = []
+
+    i = 0
+    while i < len(tokens):
+        token = tokens[i]
+
+        if token[0] == "(":
+            stack.append(token[0])
+
+        elif token[1] == "num" or token[1] == "iden":
+            postfix_stack.append(token[0])
+
+        elif token[1] == "op":
+            if len(stack) == 0 or precedence[token[0]] > precedence[stack[-1]]:
+                stack.append(token[0])
+            else:
+                while len(stack) >= 1 and precedence[token[0]] < precedence[stack[-1]]:
+                    postfix_stack.append(stack.pop())
+                stack.append(token[0])
+
+        elif token[0] == ")":
+            while stack[-1] != "(":
+                postfix_stack.append(stack.pop())
+        i += 1
+    
+    while len(stack) != 0:
+        postfix_stack.append(stack.pop())
+    return postfix_stack
