@@ -4,12 +4,12 @@ from pdf2image import convert_from_path
 class Tree:
     i = 1
 
-    def get_index(self):
+    def get_index(self): 
         self.i += 1
         return self.i - 1
 
     @staticmethod
-    def create_tree2(tokens, i = i):    
+    def create_tree(tokens, i = i):    
         dot = Digraph(comment='Arbol de expresion')
 
         def create_hijo(i, npadre):
