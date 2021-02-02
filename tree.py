@@ -27,6 +27,7 @@ class Tree_maker(object):
 
     def __init__(self, tokens):
         self.tokens = tokens
+        self.prefijo_stack = []
         self.ident = 1
         self.tree_stack = {}
         self.padre = 0
@@ -42,7 +43,7 @@ class Tree_maker(object):
         self.ident += 1
         return Padre(ident, valor)
 
-    def create_tree(self):
+    def create_tree(self):        
         while len(self.tokens) > 0:
             token = self.tokens.pop()                        
             if token == "+" or token == "-" or token == "*" or token == "/":
@@ -96,6 +97,8 @@ class Tree_maker(object):
         dot.format = "png"
         dot.render('graficas/arbol.gv', view=False)
 
+        print(self.add_hijos(self.tree_stack[self.padres[0]]))
+
     def ajuste_negativos(self, tok):
         copia = tok
         ajustado = []
@@ -114,3 +117,16 @@ class Tree_maker(object):
             else:
                 ajustado.append(actual)
         return ajustado
+    
+    def add_hijos(self, padre):
+        self.prefijo_stack.append(padre.valor)
+        if self.tree_stack[padre.hijo2].isPadre == True:
+            self.add_hijos(self.tree_stack[padre.hijo2])
+        else:
+            self.prefijo_stack.append(self.tree_stack[padre.hijo2].valor)
+        if self.tree_stack[padre.hijo1].isPadre == True:
+            self.add_hijos(self.tree_stack[padre.hijo1])
+        else:
+            self.prefijo_stack.append(self.tree_stack[padre.hijo1].valor)
+        return self.prefijo_stack
+        

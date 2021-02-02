@@ -5,10 +5,10 @@ import re
 def tokenizer(string: str):
     token_rexes = [
         (re.compile(r"^[a-zA-Z_][a-zA-Z0-9_]*"), "iden"), # variables
-        (re.compile(r"^[0-9]+"), "num"), # integers
-        (re.compile(r"^[+*/-]"), "op"), # operators
-        (re.compile(r"^[()]"), "paran"), # parantehses
-        (re.compile(r"^="), "ass"), # assignment
+        (re.compile(r"^[0-9]+"), "num"), # int
+        (re.compile(r"^[+*/-]"), "op"), # operadores
+        (re.compile(r"^[()]"), "paran"), # parantesis
+        (re.compile(r"^="), "ass"), # asignacion
     ]
 
     tokens = []
@@ -26,7 +26,7 @@ def tokenizer(string: str):
                 tokens.append(token)
                 string  = token_rex.sub('', string)
                 string = string.lstrip()
-                break # break out of the inner loop
+                break
 
         if not matched:
             raise Exception("Invalid String")
@@ -90,7 +90,7 @@ operator_mapping = {
 
 
 def parse_expr(tokens: list):
-    # Shunting Yard Algorithm
+    # Shunting Yard 
 
     operator_stack = []
     expression_stack = []

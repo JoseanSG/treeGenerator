@@ -48,7 +48,7 @@ class Interfaz:
 
         #_______CUADRO DE IMAGEN PARA EL ARBOL_________
         #creamos el cuadro de imagen
-        self.canvas = Canvas(self.ventana, width = 700, height = 700) 
+        self.canvas = Canvas(self.ventana, width = 500, height = 500) 
         self.img = ImageTk.PhotoImage(Image.open("graficas/nada.png"))  
         self.canvas.create_image(50, 50, anchor=NW, image=self.img)
         #agregamos la etiqueta
@@ -104,10 +104,10 @@ class Interfaz:
         for tok in tree_tokens:
             if tok != "(" and tok != ")":
                 tree_tokens_fixed.append(tok)
-        print(tree_tokens_fixed)
+        #print(tree_tokens_fixed)
         #Tree.create_tree(tree_tokens_fixed)
         treeMaker = Tree_maker(tree_tokens_fixed)
-        print(treeMaker.ajuste_negativos(tree_tokens_fixed))
+        #print(treeMaker.ajuste_negativos(tree_tokens_fixed))
         treeMaker.create_tree()
         self.img = ImageTk.PhotoImage(Image.open("graficas/arbol.gv.png"))  
         self.canvas.create_image(50, 50, anchor=NW, image=self.img)
