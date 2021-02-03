@@ -55,6 +55,28 @@ class Interfaz:
         self.labelArbol = Label(text = "Arbol de expresion", font = ("Helvetica",15))
         self.labelArbol.grid(row=0, column=16, columnspan=4, padx=5, pady=5)
 
+        #_______POSTFIJO PREFIJO________
+        #Agregar una caja de texto para que sea donde se muestre la notacion prefija
+        self.prefija=Text(self.ventana, state="disabled", width=70, height=1, font=("Helvetica",15))
+        #Label de Simbolos
+        self.labelprefija = Label(text = "Prefijo: ", font = ("Helvetica",15))
+
+        #Ubicar el label
+        self.labelprefija.grid(row=8, column=0, columnspan=4, padx=5, pady=5)
+        #Ubicar la caja de texto de notacion prefija en la ventana
+        self.prefija.grid(row=8, column=6, columnspan=4, padx=5, pady=5)
+
+        #Agregar una caja de texto para que sea donde se muestre la notacion postfija
+        self.postfija=Text(self.ventana, state="disabled", width=70, height=1, font=("Helvetica",15))
+        #Label de Simbolos
+        self.labelpostfija = Label(text = "Postfijo: ", font = ("Helvetica",15))
+
+        #Ubicar el label
+        self.labelpostfija.grid(row=9, column=0, columnspan=4, padx=5, pady=5)
+        #Ubicar la caja de texto de notacion postfija en la ventana
+        self.postfija.grid(row=9, column=6, columnspan=4, padx=5, pady=5)
+
+        #__________BOTONES___________
 
         self.canvas.grid(row=1, column=16, columnspan=4, padx=5, pady=5)
         #Crear boton de analizar
@@ -97,18 +119,35 @@ class Interfaz:
     def generateTree(self):
         expresion = self.textAsignacion.get(1.0, "end-1c")
         tokens = tokenizer(expresion)
-        print(tokens)
-        # create_tree(tokens)
         tree_tokens = postfix(tokens)
         tree_tokens_fixed = []
+
         for tok in tree_tokens:
             if tok != "(" and tok != ")":
                 tree_tokens_fixed.append(tok)
-        #print(tree_tokens_fixed)
-        #Tree.create_tree(tree_tokens_fixed)
+        print(tree_tokens_fixed)
+        postf = tree_tokens_fixed.copy()
         treeMaker = Tree_maker(tree_tokens_fixed)
-        #print(treeMaker.ajuste_negativos(tree_tokens_fixed))
-        treeMaker.create_tree()
+        prefix = treeMaker.create_tree()
+
+        #______IMPRESION DE PREFIX POSTFIX_________
+        #limpiamos texto de prefijo
+        self.prefija.config(state=NORMAL)
+        self.prefija.delete('1.0', END)
+        self.prefija.config(state=DISABLED)
+        #limpiamos texto de postfija
+        self.postfija.config(state=NORMAL)
+        self.postfija.delete('1.0', END)
+        self.postfija.config(state=DISABLED)
+        #texto de prefijo
+        self.prefija.config(state=NORMAL)
+        self.prefija.insert(INSERT, prefix)
+        self.prefija.config(state=DISABLED)
+        #texto de postfija               
+        self.postfija.config(state=NORMAL)
+        self.postfija.insert(INSERT, postf)
+        self.postfija.config(state=DISABLED)
+
         self.img = ImageTk.PhotoImage(Image.open("graficas/arbol.gv.png"))  
         self.canvas.create_image(50, 50, anchor=NW, image=self.img)
 
@@ -123,6 +162,14 @@ class Interfaz:
         self.tokens.config(state=NORMAL)
         self.tokens.delete('1.0', END)
         self.tokens.config(state=DISABLED)
+        #limpiamos texto de prefijo
+        self.prefija.config(state=NORMAL)
+        self.prefija.delete('1.0', END)
+        self.prefija.config(state=DISABLED)
+        #limpiamos texto de postfija
+        self.postfija.config(state=NORMAL)
+        self.postfija.delete('1.0', END)
+        self.postfija.config(state=DISABLED)
         #limpiamos el diccionario de simbolos
         SymbolTable.symbols = dict()
         #limpiamos el arbol

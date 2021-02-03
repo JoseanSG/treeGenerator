@@ -97,7 +97,7 @@ class Tree_maker(object):
         dot.format = "png"
         dot.render('graficas/arbol.gv', view=False)
 
-        print(self.add_hijos(self.tree_stack[self.padres[0]]))
+        return self.add_hijos(self.tree_stack[self.padres[0]])
 
     def ajuste_negativos(self, tok):
         copia = tok
